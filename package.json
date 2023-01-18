@@ -2,18 +2,21 @@
   "name": "nextar-backoffice-fullstack-challenge",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start:all": "npm start --workspaces --if-present",
-    "build:all": "npm run build --workspaces --if-present",
-    "lint:all": "npm run lint --workspaces --if-present",
-    "test:all": "npm test --workspaces --if-present"
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "workspaces": [
     "client",
-    "api"
-  ]
+    "api",
+    "lib"
+  ],
+  "devDependencies": {
+    "turbo": "^1.7.0"
+  }
 }
