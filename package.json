@@ -12,9 +12,8 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "client",
-    "api",
-    "lib"
+    "apps/*",
+    "packages/*"
   ],
   "devDependencies": {
     "turbo": "^1.7.0"
