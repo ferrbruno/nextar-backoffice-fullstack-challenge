@@ -1,4 +1,7 @@
 import Head from "next/head";
+import Card from "@/components/Card";
+import CardList from "@/components/CardList";
+import UserInfo from "@/components/UserInfo";
 
 export default function Home() {
   return (
@@ -9,6 +12,32 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <CardList>
+          <Card title="Bruno Ferreira">
+            <UserInfo
+              email="bruno.ferr.dev@gmail.com"
+              name="Bruno Ferreira"
+              permission="admin"
+              phone="(12) 98202-0019"
+            />
+          </Card>
+          <Card title="Bruno Ferreira">
+            <UserInfo
+              email="bruno.ferr.dev@gmail.com"
+              name="Bruno Ferreira"
+              permission="admin"
+              phone="(12) 98202-0019"
+            />
+          </Card>
+          <Card title="Bruno Ferreira">
+            <UserInfo
+              email="bruno.ferr.dev@gmail.com"
+              name="Bruno Ferreira"
+              permission="admin"
+              phone="(12) 98202-0019"
+            />
+          </Card>
+      </CardList>
     </>
   );
 }
