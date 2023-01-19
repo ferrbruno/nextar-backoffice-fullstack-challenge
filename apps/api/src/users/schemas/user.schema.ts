@@ -18,6 +18,9 @@ export class User {
 
   @Prop({ select: false })
   password: string;
+
+  @Prop({ select: false })
+  __v: number;
 }
 
 export type UserDocument = HydratedDocument<User>;
