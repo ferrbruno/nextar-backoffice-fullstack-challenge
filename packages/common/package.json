@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc"
   },
-  "devDependencies": {
+  "dependencies": {
     "tsconfig": "*",
     "typescript": "^4.7.4"
   }
