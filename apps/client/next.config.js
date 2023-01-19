@@ -9,7 +9,7 @@ const nextConfig = {
       },
     ],
   },
-  transpilePackages: ["common", "utils"]
+  transpilePackages: ["common", "utils"],
 };
 
 module.exports = nextConfig;
