@@ -3,9 +3,10 @@ import {
   Get,
   HttpCode,
   Post,
-  Request,
+  Req,
   UseGuards,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -17,13 +18,13 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(200)
-  async login(@Request() req) {
+  async login(@Req() req: Request) {
     return this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
+  getProfile(@Req() req: Request) {
     return req.user;
   }
 }
