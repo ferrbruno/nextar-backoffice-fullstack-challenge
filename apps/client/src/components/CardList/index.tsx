@@ -6,8 +6,8 @@ interface CardListProps {
 export default function CardList({ title, children }: CardListProps) {
   return (
     <div>
-      {title && <h1>{title}</h1>}
-      <div className="grid gap-4 grid-cols-4 justify-around p-4">
+      {title && <h1 className="text-xl text-center">{title}</h1>}
+      <div className="w-full flex place-content-evenly flex-wrap gap-4 p-4">
         {children}
       </div>
     </div>
