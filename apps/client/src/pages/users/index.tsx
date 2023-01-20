@@ -10,7 +10,7 @@ export default function UsersIndex() {
   });
 
   if (isLoading) {
-    return <Cog6ToothOutline />;
+    return <Cog6ToothOutline className="max-w-xs animate-[spin_3s_linear_infinite]" />;
   }
 
   if (isError) {
