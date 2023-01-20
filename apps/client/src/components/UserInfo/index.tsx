@@ -11,8 +11,8 @@ interface UserInfoProps {
 export default function UserInfo(userInfo: UserInfoProps) {
   return (
     <div className="flex flex-col">
-      {...Object.entries(userInfo).map(([key, value], index) => (
-        <span key={key}>
+      {...Object.entries(userInfo).map(([key, value]) => (
+        <span key={key} className="whitespace-nowrap">
           <span className="font-bold">{capitalize(key)}: </span>
           {value}
         </span>
