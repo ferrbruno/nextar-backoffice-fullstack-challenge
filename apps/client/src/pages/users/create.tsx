@@ -33,9 +33,9 @@ export default function UsersCreate() {
       <Title label="Create a User" />
       <form
         onSubmit={onSubmit}
-        className="p-4 m-8 border rounded-xl flex flex-col place-content-evenly w-fit h-fit"
+        className="p-4 m-8 border rounded-xl flex flex-col gap-2 place-content-evenly w-fit h-fit"
       >
-        <label className="m-2 px-1">
+        <label className="flex w-full justify-between">
           Name:
           <input
             type="text"
@@ -44,7 +44,7 @@ export default function UsersCreate() {
             onChange={(e) => setName(e.target.value)}
           />
         </label>
-        <label className="m-2 px-1">
+        <label className="flex w-full justify-between">
           Email:
           <input
             type="text"
@@ -53,7 +53,7 @@ export default function UsersCreate() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
-        <label className="m-2 px-1">
+        <label className="flex w-full justify-between">
           Phone:
           <input
             type="text"
@@ -62,17 +62,17 @@ export default function UsersCreate() {
             onChange={(e) => setPhone(e.target.value)}
           />
         </label>
-        <label className="m-2 px-1">
+        <label className="flex w-full justify-between">
           Permission:
           <select
-            className="mx-4 px-1 border rounded"
+            className="mx-4 px-1 border rounded w-full"
             onChange={(e) => setPermission(e.target.value as Permission)}
           >
             <option value={Permission.standard}>Standard</option>
             <option value={Permission.admin}>Administrator</option>
           </select>
         </label>
-        <label className="m-2 px-1">
+        <label className="flex w-full justify-between">
           Password:
           <input
             type="password"
@@ -84,7 +84,7 @@ export default function UsersCreate() {
         <input
           type="submit"
           value="Submit"
-          className="mx-4 px-1 border rounded"
+          className="mx-4 py-2 px-6 w-fit self-center border rounded bg-gradient-to-br from-indigo-400 to-indigo-800 text-white hover:bg-gradient-to-tl"
         />
       </form>
     </div>
