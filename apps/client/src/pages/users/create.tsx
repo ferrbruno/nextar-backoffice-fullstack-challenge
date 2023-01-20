@@ -1,4 +1,5 @@
-import { Permission } from "common";
+import { createUser } from "@/data/createUser";
+import { Permission, User } from "common";
 import { FormEventHandler, useState } from "react";
 
 export default function UsersCreate() {
@@ -8,20 +9,22 @@ export default function UsersCreate() {
   const [permission, setPermission] = useState(Permission.standard);
   const [password, setPassword] = useState("");
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
-    const userForm = new FormData();
+    const user = {
+      name,
+      email,
+      phone,
+      permission,
+      password,
+    } satisfies User;
 
-    userForm.set("name", name);
-    userForm.set("email", email);
-    userForm.set("phone", phone);
-    userForm.set("permission", permission);
-    userForm.set("password", password);
-
-    for (const [key, value] of userForm.entries()) {
+    for (const [key, value] of Object.entries(user)) {
       console.log(`${key}: ${value}`);
     }
+
+    await createUser(user);
   };
 
   return (
