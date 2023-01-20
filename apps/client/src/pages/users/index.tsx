@@ -1,4 +1,7 @@
+import Card from "@/components/Card";
+import CardList from "@/components/CardList";
 import { Cog6ToothOutline } from "@/components/icons/Cog";
+import UserInfo from "@/components/UserInfo";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "common";
 import { fetchUsers } from "./fetchUsers";
@@ -18,14 +21,17 @@ export default function UsersIndex() {
   }
 
   return (
-    <div className="flex flex-col w-fit">
-      <h1>Users</h1>
-      {data.map(({ name, email }) => (
-        <ul key={email} className="border rounded-md pd-2 m-1">
-          <li>{name}</li>
-          <li>{email}</li>
-        </ul>
+    <CardList title="Users">
+      {...data.map(({ email, name, phone }) => (
+        <Card key={email} title={name}>
+          <UserInfo
+            email={email}
+            name={name}
+            phone={phone}
+            permission="standard"
+          />
+        </Card>
       ))}
-    </div>
+    </CardList>
   );
 }
