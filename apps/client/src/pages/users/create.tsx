@@ -29,7 +29,7 @@ export default function UsersCreate() {
   };
 
   return (
-    <div className="flex flex-col place-items-center">
+    <div className="flex flex-col place-items-center place-content-center">
       <Title label="Create a User" />
       <form
         onSubmit={onSubmit}
@@ -84,7 +84,7 @@ export default function UsersCreate() {
         <input
           type="submit"
           value="Submit"
-          className="mx-4 py-2 px-6 w-fit self-center border rounded bg-gradient-to-br from-indigo-400 to-indigo-800 text-white hover:bg-gradient-to-tl"
+          className="btn-primary self-center"
         />
       </form>
     </div>
