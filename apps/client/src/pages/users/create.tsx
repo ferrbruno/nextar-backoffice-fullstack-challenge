@@ -1,3 +1,4 @@
+import Title from "@/components/Title";
 import { createUser } from "@/data/createUser";
 import { Permission, User } from "common";
 import { FormEventHandler, useState } from "react";
@@ -29,9 +30,7 @@ export default function UsersCreate() {
 
   return (
     <div className="flex flex-col place-items-center">
-      <h1 className="p-8 text-xl w-full text-start bg-gradient-to-r from-indigo-300 to-indigo-800">
-        Create a User
-      </h1>
+      <Title label="Create a User" />
       <form
         onSubmit={onSubmit}
         className="p-4 m-8 border rounded-xl flex flex-col place-content-evenly w-fit h-fit"
