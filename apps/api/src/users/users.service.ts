@@ -14,28 +14,41 @@ export class UsersService {
   async create({ password, ...userData }: CreateUserDto): Promise<User> {
     const passwordHash = await hash(password, 10);
 
-    const createdUser = await this.userModel.create({
+    const document = await this.userModel.create({
       password: passwordHash,
       ...userData,
     });
 
-    return createdUser;
+    return document.toObject();
   }
 
-  findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async findAll(): Promise<User[]> {
+    const document = await this.userModel.find().exec();
+    return document.map((userDocument) => userDocument.toObject());
   }
 
-  findOne(user: FindUserDto): Promise<User> {
-    return this.userModel.findOne(user).populate('password').exec();
+  async findOne(user: FindUserDto): Promise<User> {
+    const document = await this.userModel
+      .findOne(user)
+      .populate('password')
+      .exec();
+
+    return document.toObject();
   }
 
-  findById(id: string): Promise<User> {
-    return this.userModel.findById(id).exec();
+  async findById(id: string): Promise<User> {
+    const document = await this.userModel.findById(id).exec();
+
+    return document.toObject();
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return this.userModel.updateOne({ _id: id }, updateUserDto).orFail().exec();
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const updatedDocument = await this.userModel
+      .findOneAndUpdate({ _id: id }, updateUserDto)
+      .orFail()
+      .exec();
+
+    return updatedDocument.toObject();
   }
 
   remove(id: string) {
