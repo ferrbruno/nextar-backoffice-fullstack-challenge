@@ -1,6 +1,6 @@
 import Form from "@/components/Form";
 import Input from "@/components/Input";
-import { login } from "@/data/login";
+import { login } from "@/external/login";
 import { HttpStatusCode } from "axios";
 import Router from "next/router";
 import {
