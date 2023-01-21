@@ -3,7 +3,7 @@ import { InputHTMLAttributes } from "react";
 interface InputProps
   extends Pick<
     InputHTMLAttributes<HTMLInputElement>,
-    "type" | "value" | "placeholder" | "onChange"
+    "type" | "value" | "placeholder" | "onChange" | "required"
   > {
   label?: string;
 }
@@ -12,6 +12,7 @@ export default function Input({
   label,
   onChange,
   placeholder,
+  required,
   type = "text",
   value,
 }: InputProps) {
@@ -24,6 +25,7 @@ export default function Input({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        required={required}
       />
     </label>
   );
