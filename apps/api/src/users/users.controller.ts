@@ -15,6 +15,7 @@ import { FindUserDto } from './dto/find-user.dto';
 import { Permissions } from '../auth/decorators/permissions.decorator';
 
 @Controller('users')
+@Permissions(Permission.standard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -25,7 +26,7 @@ export class UsersController {
   }
 
   @Get()
-  @Permissions(Permission.standard)
+  @Permissions(Permission.admin)
   findAll() {
     return this.usersService.findAll();
   }
