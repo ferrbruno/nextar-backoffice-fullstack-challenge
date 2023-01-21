@@ -2,7 +2,7 @@ import Form from "@/components/Form";
 import Input from "@/components/Input";
 import { login } from "@/external/login";
 import { HttpStatusCode } from "axios";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import {
   ChangeEventHandler,
   FormEventHandler,
@@ -11,6 +11,7 @@ import {
 } from "react";
 
 export default function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,9 +19,9 @@ export default function Login() {
     const { status } = await login({ email, password });
 
     if (status === HttpStatusCode.Ok) {
-      Router.push("/");
+      router.push("/");
     }
-  }, [email, password]);
+  }, [email, password, router]);
 
   const onChangeEmail: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
