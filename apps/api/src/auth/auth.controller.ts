@@ -29,7 +29,7 @@ export class AuthController {
     return { message: 'Success' };
   }
 
-  @Post('logout')
+  @Get('logout')
   async logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('access_token');
 
