@@ -1,5 +1,8 @@
 import Form from "@/components/Form";
 import Input from "@/components/Input";
+import { login } from "@/data/login";
+import { HttpStatusCode } from "axios";
+import Router from "next/router";
 import {
   ChangeEventHandler,
   FormEventHandler,
@@ -11,8 +14,12 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(() => {
-    console.log({ email, password });
+  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(async () => {
+    const { status } = await login({ email, password });
+
+    if (status === HttpStatusCode.Ok) {
+      Router.push("/");
+    }
   }, [email, password]);
 
   const onChangeEmail: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -31,11 +38,17 @@ export default function Login() {
 
   return (
     <Form title="Login" onSubmit={onSubmit} submitLabel="Login">
-      <Input type="email" placeholder="Email" onChange={onChangeEmail} />
+      <Input
+        type="email"
+        placeholder="Email"
+        onChange={onChangeEmail}
+        required
+      />
       <Input
         type="password"
         placeholder="Password"
         onChange={onChangePassword}
+        required
       />
     </Form>
   );
