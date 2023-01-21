@@ -11,7 +11,6 @@ import {
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('auth')
@@ -30,7 +29,13 @@ export class AuthController {
     return { message: 'Success' };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token');
+
+    return { message: 'Success' };
+  }
+
   @Get('profile')
   getProfile(@Req() req: Request) {
     return req.user;
