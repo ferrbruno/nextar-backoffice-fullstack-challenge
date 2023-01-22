@@ -10,3 +10,9 @@ export class User {
   permission!: Permission;
   password!: string;
 }
+
+export class AuthUser {
+  name!: string;
+  username!: string;
+  userId!: string;
+}
