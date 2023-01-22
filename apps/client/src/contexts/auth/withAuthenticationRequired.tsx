@@ -1,8 +1,12 @@
 import { useAuth } from "@/hooks/useAuth";
-import { ComponentType } from "react";
+import { useRouter } from "next/router";
+import { ComponentType, useEffect } from "react";
 import { AuthContextInterface } from "./authContext";
 
-const defaultOnRedirecting = (): JSX.Element => <></>;
+const defaultOnRedirecting = (): JSX.Element => <>Redirecting...</>;
+
+const defaultReturnTo = (): string =>
+  `${window.location.pathname}${window.location.search}`;
 
 interface WithAuthenticationRequiredOptions {
   returnTo?: string | (() => string);
@@ -14,10 +18,24 @@ export const withAuthenticationRequired = <P extends object>(
   Component: ComponentType<P>,
   options: WithAuthenticationRequiredOptions = {}
 ) => {
-  const { onRedirecting = defaultOnRedirecting } = options;
+  const { onRedirecting = defaultOnRedirecting, returnTo = defaultReturnTo } =
+    options;
 
   return function WithAuthenticationRequired(props: P): JSX.Element {
-    const { isAuthenticated } = useAuth();
+    const router = useRouter();
+    const { isAuthenticated, isLoading } = useAuth();
+
+    useEffect(() => {
+      if (isAuthenticated || isLoading) {
+        return;
+      }
+
+      const opts = {
+        returnTo: typeof returnTo === "function" ? returnTo() : returnTo,
+      };
+
+      router.replace(opts.returnTo);
+    }, [isAuthenticated, isLoading, router]);
 
     return isAuthenticated ? <Component {...props} /> : onRedirecting();
   };
