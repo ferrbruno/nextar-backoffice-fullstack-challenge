@@ -1,6 +1,7 @@
 import Card from "@/components/Card";
 import CardList from "@/components/CardList";
 import { Cog6ToothOutline } from "@/components/icons/Cog";
+import Layout from "@/components/Layout";
 import UserInfo from "@/components/UserInfo";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "common";
@@ -13,7 +14,9 @@ export default function UsersIndex() {
   });
 
   if (isLoading) {
-    return <Cog6ToothOutline className="max-w-xs animate-[spin_3s_linear_infinite]" />;
+    return (
+      <Cog6ToothOutline className="max-w-xs animate-[spin_3s_linear_infinite]" />
+    );
   }
 
   if (isError) {
@@ -21,17 +24,19 @@ export default function UsersIndex() {
   }
 
   return (
-    <CardList title="Users">
-      {...data.map(({ email, name, phone }) => (
-        <Card key={email} title={name}>
-          <UserInfo
-            email={email}
-            name={name}
-            phone={phone}
-            permission="standard"
-          />
-        </Card>
-      ))}
-    </CardList>
+    <Layout>
+      <CardList title="Users">
+        {...data.map(({ email, name, phone }) => (
+          <Card key={email} title={name}>
+            <UserInfo
+              email={email}
+              name={name}
+              phone={phone}
+              permission="standard"
+            />
+          </Card>
+        ))}
+      </CardList>
+    </Layout>
   );
 }
