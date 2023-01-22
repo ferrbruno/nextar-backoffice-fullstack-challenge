@@ -1,10 +1,13 @@
 import Head from "next/head";
 import Button from "@/components/Button";
 import Link from "next/link";
-import { withAuthenticationRequired } from "@/contexts/auth";
 import Layout from "@/components/Layout";
+import { useAuth } from "@/hooks/useAuth";
+import Title from "@/components/Title";
 
-function Home() {
+export default function Home() {
+  const { user } = useAuth();
+
   return (
     <Layout>
       <Head>
@@ -13,11 +16,10 @@ function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Title label={`Hello ${user?.username ?? 'Visitor'}!`} />
       <Link href="/users">
         <Button>Users</Button>
       </Link>
     </Layout>
   );
 }
-
-export default withAuthenticationRequired(Home);

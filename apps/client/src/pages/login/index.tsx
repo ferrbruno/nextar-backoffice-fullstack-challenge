@@ -1,27 +1,24 @@
 import Form from "@/components/Form";
 import Input from "@/components/Input";
-import { login } from "@/external/login";
-import { HttpStatusCode } from "axios";
+import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/router";
 import {
   ChangeEventHandler,
   FormEventHandler,
   useCallback,
+  useEffect,
   useState,
 } from "react";
 
 export default function Login() {
+  const { isAuthenticated, login } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(async () => {
-    const { status } = await login({ email, password });
-
-    if (status === HttpStatusCode.Ok) {
-      router.push("/");
-    }
-  }, [email, password, router]);
+  const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(() => {
+    login({ email, password }, { redirectTo: "/" });
+  }, [email, login, password]);
 
   const onChangeEmail: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
@@ -36,6 +33,12 @@ export default function Login() {
     },
     []
   );
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/");
+    }
+  }, [isAuthenticated, router]);
 
   return (
     <Form title="Login" onSubmit={onSubmit} submitLabel="Login">

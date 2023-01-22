@@ -3,11 +3,12 @@ import CardList from "@/components/CardList";
 import { Cog6ToothOutline } from "@/components/icons/Cog";
 import Layout from "@/components/Layout";
 import UserInfo from "@/components/UserInfo";
+import { withAuthenticationRequired } from "@/contexts/auth";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "common";
 import { fetchUsers } from "../../external/fetchUsers";
 
-export default function UsersIndex() {
+function UsersIndex() {
   const { data, isLoading, isError, error } = useQuery<User[], Error>({
     queryKey: ["users"],
     queryFn: fetchUsers,
@@ -40,3 +41,5 @@ export default function UsersIndex() {
     </Layout>
   );
 }
+
+export default withAuthenticationRequired(UsersIndex, { returnTo: "/login" });

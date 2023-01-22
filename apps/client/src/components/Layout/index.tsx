@@ -1,4 +1,6 @@
+import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
+import { useCallback } from "react";
 import Button from "../Button";
 import NavBar from "../NavBar";
 import SearchInput from "../SearchInput";
@@ -8,6 +10,12 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const { isAuthenticated, logout } = useAuth();
+
+  const onLogout = useCallback(() => {
+    logout();
+  }, [logout]);
+
   return (
     <>
       <NavBar>
@@ -15,7 +23,13 @@ export default function Layout({ children }: LayoutProps) {
           <Button>Home</Button>
         </Link>
         <SearchInput onSearch={console.log} />
-        <Button>Botãozinho</Button>
+        {isAuthenticated ? (
+          <Button onClick={onLogout}>Logout</Button>
+        ) : (
+          <Link href="/login">
+            <Button>Login</Button>
+          </Link>
+        )}
       </NavBar>
       {children}
     </>
