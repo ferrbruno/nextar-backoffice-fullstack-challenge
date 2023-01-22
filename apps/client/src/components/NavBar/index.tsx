@@ -4,7 +4,7 @@ interface NavBarProps {
 
 export default function NavBar({ children }: NavBarProps) {
   return (
-    <div className="w-screen h-fit p-2 bg-red-600 flex justify-between content-center items-center">
+    <div className="w-full h-fit p-2 bg-indigo-600 flex justify-between content-center items-center">
       {children}
     </div>
   );
