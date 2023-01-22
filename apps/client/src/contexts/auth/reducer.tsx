@@ -23,6 +23,12 @@ export const reducer = (state: AuthState, action: Action): AuthState => {
       };
 
     case "LOGIN_COMPLETE":
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: Boolean(action.user),
+        user: action.user,
+      };
 
     case "INITIALISED":
 
