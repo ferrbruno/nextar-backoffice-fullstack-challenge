@@ -4,7 +4,7 @@ import { Cog6ToothOutline } from "@/components/icons/Cog";
 import UserInfo from "@/components/UserInfo";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "common";
-import { fetchUsers } from "../../data/fetchUsers";
+import { fetchUsers } from "../../external/fetchUsers";
 
 export default function UsersIndex() {
   const { data, isLoading, isError, error } = useQuery<User[], Error>({

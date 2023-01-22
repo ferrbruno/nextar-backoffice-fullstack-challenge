@@ -1,5 +1,5 @@
 import Title from "@/components/Title";
-import { createUser } from "@/data/createUser";
+import { createUser } from "@/external/createUser";
 import { Permission, User } from "common";
 import { FormEventHandler, useState } from "react";
 
