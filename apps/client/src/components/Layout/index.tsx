@@ -37,7 +37,7 @@ export default function Layout({ children, title }: LayoutProps) {
         )}
       </NavBar>
       {title && <Title label={title} />}
-      <div className="container m-2 p-4 flex place-content-center place-items-center">
+      <div className="m-2 p-4 flex place-content-center place-items-center">
         {children}
       </div>
     </>

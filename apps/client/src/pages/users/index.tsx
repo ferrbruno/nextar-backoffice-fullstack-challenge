@@ -25,8 +25,8 @@ function UsersIndex() {
   }
 
   return (
-    <Layout>
-      <CardList title="Users">
+    <Layout title="Users">
+      <CardList>
         {...data.map(({ email, name, phone }) => (
           <Card key={email} title={name}>
             <UserInfo
