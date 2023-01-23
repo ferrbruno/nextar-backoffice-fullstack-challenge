@@ -1,10 +1,6 @@
 import { InputHTMLAttributes } from "react";
 
-interface InputProps
-  extends Pick<
-    InputHTMLAttributes<HTMLInputElement>,
-    "type" | "value" | "placeholder" | "onChange" | "required"
-  > {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 

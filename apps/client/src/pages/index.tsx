@@ -20,6 +20,9 @@ export default function Home() {
       <Link href="/users">
         <Button>Users</Button>
       </Link>
+      <Link href="/users/create">
+        <Button>Create User</Button>
+      </Link>
     </Layout>
   );
 }

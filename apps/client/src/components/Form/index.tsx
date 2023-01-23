@@ -1,4 +1,5 @@
 import { FormEventHandler } from "react";
+import Button from "../Button";
 import Title from "../Title";
 
 interface FormProps {
@@ -30,11 +31,9 @@ export default function Form({
       >
         {title && <Title label={title} />}
         {children}
-        <input
-          type="submit"
-          value={submitLabel}
-          className="btn-primary self-center"
-        />
+        <Button type="submit" className="btn-primary self-center">
+          {submitLabel || "Submit"}
+        </Button>
       </form>
     </div>
   );
