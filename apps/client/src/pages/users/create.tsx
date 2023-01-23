@@ -2,7 +2,10 @@ import Form from "@/components/Form";
 import Input from "@/components/Input";
 import Layout from "@/components/Layout";
 import { createUser } from "@/external/createUser";
+import { AxiosError, isAxiosError } from "axios";
 import { Permission, User } from "common";
+import Image from "next/image";
+import Router from "next/router";
 import { FormEventHandler, useCallback, useState } from "react";
 
 export default function UsersCreate() {
@@ -11,6 +14,7 @@ export default function UsersCreate() {
   const [phone, setPhone] = useState("");
   const [permission, setPermission] = useState(Permission.standard);
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<AxiosError>();
 
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (event) => {
@@ -28,12 +32,31 @@ export default function UsersCreate() {
         console.log(`${key}: ${value}`);
       }
 
-      const createdUser = await createUser(user);
-
-      alert(`User "${createdUser.name}" created. =)`);
+      try {
+        const createdUser = await createUser(user);
+        alert(`User "${createdUser.name}" created. =)`);
+        Router.push("/");
+      } catch (err) {
+        if (isAxiosError(err)) {
+          setError(err);
+        }
+      }
     },
     [email, name, password, permission, phone]
   );
+
+  if (error) {
+    return (
+      <Layout title="Error creating user =(">
+        <Image
+          src={`https://http.cat/${error.response?.status || 200}`}
+          alt="gatin"
+          width={750}
+          height={600}
+        />
+      </Layout>
+    );
+  }
 
   return (
     <Layout title="Create a User">
@@ -58,8 +81,8 @@ export default function UsersCreate() {
             required
             type="tel"
             label="Phone:"
-            placeholder="Phone"
-            pattern="\(\d{2}\) \d{5}-\d{4}"
+            placeholder="(01) 23456-7890"
+            pattern="([0-9]{2}) [0-9]{5}-[0-9]{4}"
             onChange={(e) => setPhone(e.target.value)}
           />
           <label className="flex w-full justify-between">
