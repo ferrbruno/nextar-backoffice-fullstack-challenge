@@ -12,6 +12,11 @@ npm install
 
 ## Run
 
+### [docker-compose](https://docs.docker.com/compose/) (Recommended)
+```sh
+docker compose up -d
+```
+
 ### npm
 ```sh
 npm run dev
