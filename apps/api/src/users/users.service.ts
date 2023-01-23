@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { hash } from 'bcrypt';
 import { Model } from 'mongoose';
@@ -14,12 +14,20 @@ export class UsersService {
   async create({ password, ...userData }: CreateUserDto): Promise<User> {
     const passwordHash = await hash(password, 10);
 
-    const document = await this.userModel.create({
-      password: passwordHash,
-      ...userData,
-    });
+    try {
+      const document = await this.userModel.create({
+        password: passwordHash,
+        ...userData,
+      });
 
-    return document.toObject();
+      return document.toObject();
+    } catch (err) {
+      if (err.code === 11000) {
+        throw new BadRequestException('User with this email already exists.');
+      }
+
+      throw err;
+    }
   }
 
   async find(filter: FindUserDto): Promise<User[]> {
