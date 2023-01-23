@@ -13,6 +13,7 @@ export class User {
 
 export class AuthUser {
   name!: string;
-  username!: string;
+  email!: string;
   userId!: string;
+  permission!: string;
 }

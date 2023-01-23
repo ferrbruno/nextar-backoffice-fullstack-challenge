@@ -38,7 +38,7 @@ export class UsersService {
     return document.map((userDocument) => userDocument.toObject());
   }
 
-  async findOne(user: FindUserDto): Promise<User> {
+  async findOne(user: FindUserDto) {
     const document = await this.userModel
       .findOne(user)
       .populate('password')
@@ -47,7 +47,7 @@ export class UsersService {
     return document.toObject();
   }
 
-  async findById(id: string): Promise<User> {
+  async findById(id: string) {
     const document = await this.userModel.findById(id).exec();
 
     return document.toObject();
