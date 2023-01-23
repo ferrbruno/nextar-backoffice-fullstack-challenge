@@ -1,4 +1,12 @@
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { searchUsers } from "@/external/searchUsers";
+import { useQuery } from "@tanstack/react-query";
+import {
+  ChangeEventHandler,
+  FocusEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { MagnifyingGlass } from "../icons/MagnifyingGlass";
 
 interface SearchInputProps {
@@ -7,15 +15,33 @@ interface SearchInputProps {
 
 export default function SearchInput({ onSearch }: SearchInputProps) {
   const [text, setText] = useState("");
+  const [focused, setFocused] = useState(false);
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setText(event.target.value);
-  };
+  const { data } = useQuery({
+    queryKey: ["users", "search", { name: text }],
+    queryFn: () => searchUsers({ name: text }),
+    enabled: focused && Boolean(text),
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+  });
 
-  // const onBlur: FocusEventHandler<HTMLInputElement> = (event) => {
-  //   setText('');
-  //   event.target.value = '';
-  // }
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      setText(event.target.value);
+    },
+    []
+  );
+
+  const onFocus: FocusEventHandler<HTMLInputElement> = useCallback(() => {
+    setFocused(true);
+    if (data) {
+      console.log({ data });
+    }
+  }, [data]);
+
+  const onBlur: FocusEventHandler<HTMLInputElement> = useCallback(() => {
+    setFocused(false);
+  }, []);
 
   useEffect(() => {
     if (onSearch) {
@@ -24,14 +50,15 @@ export default function SearchInput({ onSearch }: SearchInputProps) {
   }, [onSearch, text]);
 
   return (
-    <div className="bg-white border border-black rounded-xl p-1 flex">
+    <div className="relative bg-white border border-black rounded-xl p-1 flex">
       <MagnifyingGlass className="w-6 text-indigo-800" />
       <input
-        type="text"
+        type="search"
         placeholder="Search"
         className="bg-inherit outline-0 sm:w-96"
         onChange={onChange}
-        // onBlur={onBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
     </div>
   );

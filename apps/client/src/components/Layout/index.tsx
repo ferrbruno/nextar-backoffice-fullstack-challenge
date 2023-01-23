@@ -22,7 +22,7 @@ export default function Layout({ children }: LayoutProps) {
         <Link href="/">
           <Button>Home</Button>
         </Link>
-        <SearchInput onSearch={console.log} />
+        <SearchInput />
         {isAuthenticated ? (
           <Button onClick={onLogout}>Logout</Button>
         ) : (
