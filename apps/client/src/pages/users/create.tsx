@@ -1,7 +1,6 @@
 import Form from "@/components/Form";
 import Input from "@/components/Input";
 import Layout from "@/components/Layout";
-import Title from "@/components/Title";
 import { createUser } from "@/external/createUser";
 import { Permission, User } from "common";
 import { FormEventHandler, useCallback, useState } from "react";
@@ -37,9 +36,8 @@ export default function UsersCreate() {
   );
 
   return (
-    <Layout>
+    <Layout title="Create a User">
       <div className="flex flex-col place-items-center place-content-center">
-        <Title label="Create a User" />
         <Form onSubmit={onSubmit}>
           <Input
             required
