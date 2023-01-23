@@ -37,8 +37,8 @@ export class UsersController {
   }
 
   @Post('search')
-  findOne(@Body() findUserDto: FindUserDto) {
-    return this.usersService.findOne(findUserDto);
+  find(@Body() findUserDto: FindUserDto) {
+    return this.usersService.find(findUserDto);
   }
 
   @Patch(':id')

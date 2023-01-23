@@ -22,8 +22,19 @@ export class UsersService {
     return document.toObject();
   }
 
+  async find(filter: FindUserDto): Promise<User[]> {
+    console.log({ filter });
+    const document = await this.userModel
+      .find(filter)
+      .sort({ name: 'asc' })
+      .exec();
+
+    return document.map((userDocument) => userDocument.toObject());
+  }
+
   async findAll(): Promise<User[]> {
     const document = await this.userModel.find().exec();
+
     return document.map((userDocument) => userDocument.toObject());
   }
 
