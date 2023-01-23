@@ -4,6 +4,6 @@
 
 @layer components {
   .btn-primary {
-    @apply mx-4 py-2 px-6 w-fit border rounded bg-gradient-to-br from-indigo-400 to-indigo-800 text-white hover:bg-gradient-to-tl;
+    @apply mx-4 py-2 px-6 w-fit shadow-xl border rounded bg-gradient-to-br from-indigo-400 to-indigo-800 text-white hover:bg-gradient-to-tl;
   }
 }
