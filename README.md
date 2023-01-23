@@ -1,5 +1,6 @@
 # Nextar Backoffice Challenge
 
+This project was made in a monorepo using [turborepo](https://turbo.build/repo) to simplify development.
 The challenge rules are available [here.](https://github.com/nextar/backoffice-desafio-fullstack)
 
 ## Install
@@ -11,12 +12,7 @@ npm install
 
 ## Run
 
-### [docker-compose](https://docs.docker.com/compose/) (Recommended)
+### npm
 ```sh
-docker compose up -d
-```
-
-### NPM
-```sh
-npm run start:all
+npm run dev
 ```
