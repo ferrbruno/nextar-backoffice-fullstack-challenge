@@ -49,4 +49,4 @@ COPY --from=installer --chown=nestjs:nodejs /app .
 
 EXPOSE 3001
 
-CMD node ./apps/api/dist/main.js
+CMD npm start -w api
