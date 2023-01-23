@@ -25,7 +25,7 @@ export default function SearchInput({ onSearch }: SearchInputProps) {
 
   return (
     <div className="bg-white border border-black rounded-xl p-1 flex">
-      <MagnifyingGlass />
+      <MagnifyingGlass className="w-6 text-indigo-800" />
       <input
         type="text"
         placeholder="Search"
