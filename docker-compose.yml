@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    container_name: api-turbo
+    volumes:
+      - ./apps/api/src:/app/apps/api/src
+    ports:
+      - 3001:3001
+    env_file: ./apps/api/.env
+    command: npm run dev -w api
+    depends_on:
+      - mongo
+
+  client:
+    build:
+      context: .
+      dockerfile: ./apps/client/Dockerfile
+    container_name: client-turbo
+    volumes:
+      - ./apps/client/src:/app/apps/client/src
+    ports:
+      - 3000:3000
+    env_file: ./apps/client/.env.local
+    command: npm run dev -w client
+    depends_on:
+      - api
+
+  mongo:
+    image: mongo
+    container_name: mongo-turbo
