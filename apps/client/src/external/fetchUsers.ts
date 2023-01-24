@@ -11,8 +11,8 @@ export async function fetchUsers() {
   return data;
 }
 
-export async function getUserById(id: string): Promise<User> {
-  const { data } = await api.get<User>(`/users/${id}`);
+export async function getUserById(id: string) {
+  const { data } = await api.get<UserWithId>(`/users/${id}`);
 
   return data;
 }

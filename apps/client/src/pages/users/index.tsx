@@ -33,7 +33,7 @@ function UsersIndex() {
           <Card
             key={_id}
             title={name}
-            onClick={() => router.push(`/users/${_id}/edit`)}
+            onClick={() => router.push(`/users/${_id}`)}
           >
             <UserInfo
               email={email}
