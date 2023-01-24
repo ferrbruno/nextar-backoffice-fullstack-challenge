@@ -21,7 +21,7 @@ function UsersIndex() {
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    throw error;
   }
 
   return (
