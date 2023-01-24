@@ -29,6 +29,16 @@ export default class ErrorBoundary extends Component<
     return { hasError: true, error };
   }
 
+  componentDidUpdate(
+    prevProps: Readonly<ErrorBoundaryProps>,
+    prevState: Readonly<ErrorBoundaryState>,
+    snapshot?: any
+  ): void {
+    if (prevState.hasError) {
+      this.setState({ error: undefined, hasError: false });
+    }
+  }
+
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // You can also log the error to an error reporting service
     console.error("Uncaught error:", error, errorInfo);
