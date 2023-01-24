@@ -31,12 +31,11 @@ export class UsersService {
   }
 
   async find(filter: FindUserDto) {
-    const regexFilter = Object.fromEntries(
-      Object.entries(filter).map(([key, value]) => [
-        key,
-        new RegExp(value, 'i'),
-      ]),
-    );
+    const regexFilter = {
+      $or: Object.entries(filter).map(([key, value]) => ({
+        [key]: new RegExp(value, 'i'),
+      })),
+    };
 
     const document = await this.userModel
       .find(regexFilter)
