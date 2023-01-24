@@ -6,13 +6,18 @@ import { AxiosError, isAxiosError } from "axios";
 import { Permission, User } from "common";
 import Image from "next/image";
 import Router from "next/router";
-import { FormEventHandler, useCallback, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useCallback,
+  useState,
+} from "react";
 
 export default function UsersCreate() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [permission, setPermission] = useState(Permission.standard);
+  const [permission, setPermission] = useState<Permission>(Permission.standard);
   const [password, setPassword] = useState("");
   const [error, setError] = useState<AxiosError>();
 
@@ -45,11 +50,36 @@ export default function UsersCreate() {
     [email, name, password, permission, phone]
   );
 
-  if (error) {
+  const onChangeName: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => setName(e.target.value),
+    []
+  );
+
+  const onChangeEmail: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => setEmail(e.target.value),
+    []
+  );
+
+  const onChangePhone: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => setPhone(e.target.value),
+    []
+  );
+
+  const onChangePermission: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => setPermission(e.target.value as Permission),
+    []
+  );
+
+  const onChangePassword: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => setPassword(e.target.value),
+    []
+  );
+
+  if (error && error.response?.status) {
     return (
       <Layout title="Error creating user =(">
         <Image
-          src={`https://http.cat/${error.response?.status || 200}`}
+          src={`https://http.cat/${error.response.status}`}
           alt="gatin"
           width={750}
           height={600}
@@ -67,7 +97,7 @@ export default function UsersCreate() {
             type="text"
             label="Name:"
             placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
+            onChange={onChangeName}
           />
 
           <Input
@@ -75,7 +105,7 @@ export default function UsersCreate() {
             type="email"
             label="Email:"
             placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={onChangeEmail}
           />
           <Input
             required
@@ -83,14 +113,14 @@ export default function UsersCreate() {
             label="Phone:"
             placeholder="(01) 23456-7890"
             pattern="([0-9]{2}) [0-9]{5}-[0-9]{4}"
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={onChangePhone}
           />
           <label className="flex w-full justify-between">
             Permission:
             <select
               required
               className="mx-4 px-1 border rounded w-full"
-              onChange={(e) => setPermission(e.target.value as Permission)}
+              onChange={onChangePermission}
             >
               <option value={Permission.standard}>Standard</option>
               <option value={Permission.admin}>Administrator</option>
@@ -101,7 +131,7 @@ export default function UsersCreate() {
             type="password"
             label="Password:"
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={onChangePassword}
           />
         </Form>
       </div>
