@@ -1,8 +1,18 @@
 import { User } from "common";
 import { api } from "./api";
 
-export async function fetchUsers(): Promise<User[]> {
-  const { data } = await api.get<User[]>("/users");
+interface UserWithId extends User {
+  _id: string;
+}
+
+export async function fetchUsers() {
+  const { data } = await api.get<UserWithId[]>("/users");
+
+  return data;
+}
+
+export async function getUserById(id: string): Promise<User> {
+  const { data } = await api.get<User>(`/users/${id}`);
 
   return data;
 }
