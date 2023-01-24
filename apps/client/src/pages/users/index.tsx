@@ -27,13 +27,13 @@ function UsersIndex() {
   return (
     <Layout title="Users">
       <CardList>
-        {...data.map(({ email, name, phone }) => (
+        {...data.map(({ email, name, phone, permission }) => (
           <Card key={email} title={name}>
             <UserInfo
               email={email}
               name={name}
               phone={phone}
-              permission="standard"
+              permission={permission}
             />
           </Card>
         ))}
