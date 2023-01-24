@@ -13,6 +13,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
 import { Permissions } from '../auth/decorators/permissions.decorator';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('users')
 @Permissions(Permission.standard, Permission.admin)
@@ -20,8 +21,9 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Permissions(Permission.admin)
+  @Public()
   create(@Body() createUserDto: CreateUserDto) {
+    console.log({ createUserDto });
     return this.usersService.create(createUserDto);
   }
 
