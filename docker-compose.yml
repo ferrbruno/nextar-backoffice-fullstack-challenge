@@ -32,3 +32,5 @@ services:
   mongo:
     image: mongo
     container_name: mongo-turbo
+    ports:
+      - 27017:27017
