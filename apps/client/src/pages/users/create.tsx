@@ -4,7 +4,6 @@ import Layout from "@/components/Layout";
 import { createUser } from "@/external/createUser";
 import { AxiosError, isAxiosError } from "axios";
 import { Permission, User } from "common";
-import Image from "next/image";
 import Router from "next/router";
 import {
   ChangeEventHandler,
@@ -75,17 +74,9 @@ export default function UsersCreate() {
     []
   );
 
-  if (error && error.response?.status) {
-    return (
-      <Layout title="Error creating user =(">
-        <Image
-          src={`https://http.cat/${error.response.status}`}
-          alt="gatin"
-          width={750}
-          height={600}
-        />
-      </Layout>
-    );
+  if (error) {
+    // Let ErrorBoundary handle it ;)
+    throw error;
   }
 
   return (
