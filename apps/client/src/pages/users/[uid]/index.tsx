@@ -17,7 +17,7 @@ export default function UserDetails() {
 
   const editUser = useCallback(() => {
     if (data) {
-      router.push(`/users/${data._id}`);
+      router.push(`/users/${data._id}/edit`);
     }
   }, [data, router]);
 
