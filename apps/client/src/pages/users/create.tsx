@@ -111,6 +111,7 @@ export default function UsersCreate() {
             <select
               required
               className="mx-4 px-1 border rounded w-full"
+              defaultValue={Permission.standard}
               onChange={onChangePermission}
             >
               <option value={Permission.standard}>Standard</option>
