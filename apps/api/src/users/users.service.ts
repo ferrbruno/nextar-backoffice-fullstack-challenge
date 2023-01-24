@@ -30,17 +30,23 @@ export class UsersService {
     }
   }
 
-  async find(filter: FindUserDto): Promise<User[]> {
-    console.log({ filter });
+  async find(filter: FindUserDto) {
+    const regexFilter = Object.fromEntries(
+      Object.entries(filter).map(([key, value]) => [
+        key,
+        new RegExp(value, 'i'),
+      ]),
+    );
+
     const document = await this.userModel
-      .find(filter)
+      .find(regexFilter)
       .sort({ name: 'asc' })
       .exec();
 
     return document.map((userDocument) => userDocument.toObject());
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll() {
     const document = await this.userModel.find().exec();
 
     return document.map((userDocument) => userDocument.toObject());
