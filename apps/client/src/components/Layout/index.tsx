@@ -26,10 +26,10 @@ export default function Layout({ children, title }: LayoutProps) {
         </Link>
         <SearchInput />
         {isAuthenticated ? (
-          <>
-            <h1>{user?.name}</h1>
+          <div className="flex place-items-center">
+            {user?.name && <h1>{user?.name}</h1>}
             <Button onClick={onLogout}>Logout</Button>
-          </>
+          </div>
         ) : (
           <Link href="/login">
             <Button>Login</Button>
