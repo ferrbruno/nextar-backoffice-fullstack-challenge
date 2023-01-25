@@ -6,6 +6,7 @@ import UserInfo from "@/components/UserInfo";
 import { withAuthenticationRequired } from "@/contexts/auth";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import { fetchUsers } from "../../external/fetchUsers";
 
 function UsersIndex() {
@@ -15,6 +16,13 @@ function UsersIndex() {
     queryKey: ["users"],
     queryFn: fetchUsers,
   });
+
+  const onClickUser = useCallback(
+    (id: string) => () => {
+      router.push(`/users/${id}`);
+    },
+    [router]
+  );
 
   if (isLoading) {
     return (
@@ -30,11 +38,7 @@ function UsersIndex() {
     <Layout title="Users">
       <CardList>
         {...data.map(({ _id, email, name, phone, permission }) => (
-          <Card
-            key={_id}
-            title={name}
-            onClick={() => router.push(`/users/${_id}`)}
-          >
+          <Card key={_id} title={name} onClick={onClickUser(_id)}>
             <UserInfo
               email={email}
               name={name}
