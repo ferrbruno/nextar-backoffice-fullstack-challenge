@@ -2,7 +2,7 @@ import { Cog6ToothOutline } from "@/components/icons/Cog";
 import Layout from "@/components/Layout";
 import { updateUser } from "@/external/updateUser";
 import { getUserById } from "@/external/fetchUsers";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Permission, User } from "common";
 import { useRouter } from "next/router";
 import {
@@ -24,10 +24,20 @@ export default function UserEdit() {
   const router = useRouter();
   const { uid } = router.query;
 
-  const { data, error, isLoading, isError } = useQuery<User, Error>({
+  const { data, error, isLoading, isError } = useQuery({
     queryKey: ["user", { id: uid }],
     queryFn: () => getUserById(String(uid)),
     enabled: Boolean(uid),
+  });
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (user: Partial<User>) => updateUser(String(uid), user),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["users"]);
+      queryClient.setQueryData(["user", { id: uid }], data);
+    },
   });
 
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(async () => {
@@ -39,12 +49,21 @@ export default function UserEdit() {
       password,
     } satisfies Partial<User>;
 
-    const updatedUser = await updateUser(String(uid), user);
+    for (const [key, value] of Object.entries(user)) {
+      if (!value) {
+        delete user[key as keyof typeof user];
+      }
+    }
+
+    const updatedUser = await mutation.mutateAsync(user);
 
     alert(`Updated user ${updatedUser.name}!`);
 
-    router.push("/");
-  }, [email, name, password, permission, phone, router, uid]);
+    router.push({
+      pathname: "/users/[uid]",
+      query: { uid: updatedUser._id },
+    });
+  }, [email, mutation, name, password, permission, phone, router]);
 
   const onChangeName: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => setName(e.target.value),
