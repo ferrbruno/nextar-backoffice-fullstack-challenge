@@ -2,7 +2,7 @@ import Form from "@/components/Form";
 import Input from "@/components/Input";
 import Layout from "@/components/Layout";
 import { createUser } from "@/external/createUser";
-import { AxiosError, isAxiosError } from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Permission, User } from "common";
 import Router from "next/router";
 import {
@@ -18,7 +18,15 @@ export default function UsersCreate() {
   const [phone, setPhone] = useState("");
   const [permission, setPermission] = useState<Permission>(Permission.standard);
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<AxiosError>();
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["users"]);
+    },
+  });
 
   const onSubmit: FormEventHandler<HTMLFormElement> = useCallback(
     async (event) => {
@@ -36,17 +44,11 @@ export default function UsersCreate() {
         console.log(`${key}: ${value}`);
       }
 
-      try {
-        const createdUser = await createUser(user);
-        alert(`User "${createdUser.name}" created. =)`);
-        Router.push("/");
-      } catch (err) {
-        if (isAxiosError(err)) {
-          setError(err);
-        }
-      }
+      const createdUser = await mutation.mutateAsync(user);
+      alert(`User "${createdUser.name}" created. =)`);
+      Router.push("/");
     },
-    [email, name, password, permission, phone]
+    [email, mutation, name, password, permission, phone]
   );
 
   const onChangeName: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -73,11 +75,6 @@ export default function UsersCreate() {
     (e) => setPassword(e.target.value),
     []
   );
-
-  if (error) {
-    // Let ErrorBoundary handle it ;)
-    throw error;
-  }
 
   return (
     <Layout title="Create a User">
