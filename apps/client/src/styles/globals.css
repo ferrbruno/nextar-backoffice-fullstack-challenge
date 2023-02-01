@@ -4,6 +4,25 @@
 
 @layer components {
   .btn-primary {
-    @apply mx-4 py-2 px-6 w-fit shadow-xl border rounded bg-gradient-to-br from-indigo-400 to-indigo-800 text-white hover:bg-gradient-to-tl;
+    @apply mx-4 py-2 px-6 w-fit shadow-xl border rounded
+           bg-gradient-to-br from-indigo-400 to-indigo-800 text-white
+           hover:bg-gradient-to-tl;
+  }
+
+  .navbar-icon {
+    @apply relative flex items-center justify-center h-12 w-12 my-2 mx-auto shadow-lg
+           bg-indigo-600 text-white hover:bg-white hover:text-indigo-600
+           dark:bg-indigo-600 dark:text-black
+           dark:hover:bg-indigo-300
+           rounded-3xl hover:rounded-xl
+           transition-all duration-300
+           cursor-pointer;
+  }
+
+  .navbar-tooltip {
+    @apply absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md
+           text-white bg-indigo-600 dark:text-black
+           text-xs font-bold
+           transition-all duration-100 scale-0 origin-left;
   }
 }

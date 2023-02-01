@@ -1,9 +1,14 @@
 import { useAuth } from "@/hooks/useAuth";
+import { useDarkMode } from "@/hooks/useDarkMode";
 import Link from "next/link";
 import { useCallback } from "react";
-import Button from "../Button";
+import ArrowRightOnRectangleIcon from "../icons/ArrowRightOnRectangle";
+import HomeIcon from "../icons/Home";
+import MoonIcon from "../icons/Moon";
+import SunIcon from "../icons/Sun";
+import { UserIcon, UsersIcon, UserPlusIcon } from "../icons/User";
 import NavBar from "../NavBar";
-import SearchInput from "../SearchInput";
+import NavBarIcon from "../NavBarIcon";
 import Title from "../Title";
 
 interface LayoutProps {
@@ -12,34 +17,47 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, title }: LayoutProps) {
-  const { isAuthenticated, logout, user } = useAuth();
+  const { logout, user } = useAuth();
+  const [enabled, setEnabled] = useDarkMode();
 
-  const onLogout = useCallback(() => {
-    logout();
+  const toggleDarkMode = useCallback(() => {
+    setEnabled(!enabled);
+  }, [enabled, setEnabled]);
+
+  const handleLogout = useCallback(() => {
+    logout({ returnTo: "/login" });
   }, [logout]);
 
   return (
-    <>
+    <div className="flex dark:bg-slate-800">
       <NavBar>
         <Link href="/">
-          <Button>Home</Button>
+          <NavBarIcon icon={<HomeIcon />} text="Home" />
         </Link>
-        <SearchInput />
-        {isAuthenticated ? (
-          <div className="flex place-items-center">
-            {user?.name && <h1>{user?.name}</h1>}
-            <Button onClick={onLogout}>Logout</Button>
-          </div>
-        ) : (
-          <Link href="/login">
-            <Button>Login</Button>
-          </Link>
-        )}
+        <Link href={`/users/${user?.userId}`}>
+          <NavBarIcon icon={<UserIcon />} text="Profile" />
+        </Link>
+        <Link href="/users">
+          <NavBarIcon icon={<UsersIcon />} text="Users" />
+        </Link>
+        <Link href="/users/create">
+          <NavBarIcon icon={<UserPlusIcon />} text="Add User" />
+        </Link>
+        <NavBarIcon
+          icon={enabled ? <SunIcon /> : <MoonIcon />}
+          text={`Switch to ${enabled ? "Light" : "Dark"} Mode`}
+          onClick={toggleDarkMode}
+        />
+        <NavBarIcon
+          icon={<ArrowRightOnRectangleIcon />}
+          text="Logout"
+          onClick={handleLogout}
+        />
       </NavBar>
-      {title && <Title label={title} />}
-      <div className="m-2 p-4 flex place-content-center place-items-center">
-        {children}
+      <div className="flex flex-col w-full h-full">
+        {title && <Title label={title} />}
+        <div className="flex m-2 p-4 place-content-center">{children}</div>
       </div>
-    </>
+    </div>
   );
 }
