@@ -2,6 +2,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import Link from "next/link";
 import { useCallback } from "react";
+import ArrowLeftOnRectangleIcon from "../icons/ArrowLeftOnRectangle";
 import ArrowRightOnRectangleIcon from "../icons/ArrowRightOnRectangle";
 import HomeIcon from "../icons/Home";
 import MoonIcon from "../icons/Moon";
@@ -17,7 +18,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, title }: LayoutProps) {
-  const { logout, user } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
   const [enabled, setEnabled] = useDarkMode();
 
   const toggleDarkMode = useCallback(() => {
@@ -48,11 +49,17 @@ export default function Layout({ children, title }: LayoutProps) {
           text={`Switch to ${enabled ? "Light" : "Dark"} Mode`}
           onClick={toggleDarkMode}
         />
-        <NavBarIcon
-          icon={<ArrowRightOnRectangleIcon />}
-          text="Logout"
-          onClick={handleLogout}
-        />
+        {isAuthenticated ? (
+          <NavBarIcon
+            icon={<ArrowLeftOnRectangleIcon />}
+            text="Logout"
+            onClick={handleLogout}
+          />
+        ) : (
+          <Link href="/login">
+            <NavBarIcon icon={<ArrowRightOnRectangleIcon />} text="Login" />
+          </Link>
+        )}
       </NavBar>
       <div className="flex flex-col w-full h-full">
         {title && <Title label={title} />}
