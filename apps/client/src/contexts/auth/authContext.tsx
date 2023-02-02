@@ -16,7 +16,7 @@ export interface AuthContextInterface extends AuthState {
 }
 
 const stub = (): never => {
-  throw new Error('You forgot to wrap your component in <Auth0Provider>.');
+  throw new Error('You forgot to wrap your component in <AuthProvider>.');
 };
 
 export const initialContext = {

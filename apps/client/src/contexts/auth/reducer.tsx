@@ -36,11 +36,15 @@ export const reducer = (state: AuthState, action: Action): AuthState => {
 
     case "GET_ACCESS_TOKEN_COMPLETE":
       if (state.user === action.user) {
-        return state;
+        return {
+          ...state,
+          isLoading: false,
+        };
       }
 
       return {
         ...state,
+        isLoading: false,
         isAuthenticated: Boolean(action.user),
         user: action.user,
       };
