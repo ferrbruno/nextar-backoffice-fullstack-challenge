@@ -6,7 +6,7 @@ import { AuthContextInterface } from "./authContext";
 const defaultOnRedirecting = (): JSX.Element => <>Redirecting...</>;
 
 const defaultReturnTo = (): string =>
-  `${window.location.pathname}${window.location.search}`;
+  `${location.pathname}${location.search}`;
 
 interface WithAuthenticationRequiredOptions {
   returnTo?: string | (() => string);
