@@ -13,10 +13,10 @@ export default function Input({
   value,
 }: InputProps) {
   return (
-    <label className="flex w-full justify-between">
+    <label className="flex w-full justify-between dark:text-white">
       {label}
       <input
-        className="mx-4 px-1 border rounded"
+        className="mx-4 px-1 border rounded dark:bg-black"
         type={type}
         value={value}
         placeholder={placeholder}

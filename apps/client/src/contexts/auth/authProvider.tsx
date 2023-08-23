@@ -23,44 +23,43 @@ export function AuthProvider({ returnTo, children }: AuthPoviderProps) {
   const router = useRouter();
   const [state, dispatch] = useReducer(reducer, initialAuthState);
 
-  const { data, isInitialLoading } = useQuery(
-    ["auth", "profile"],
-    getUserProfile,
-    {
-      retry(failureCount, error) {
-        if (error instanceof AxiosError) {
-          if (error.response?.status === HttpStatusCode.Unauthorized) {
-            return false;
-          }
+  const { isLoading, refetch } = useQuery({
+    queryKey: ["auth", "profile"],
+    queryFn: getUserProfile,
+    retry(failureCount, error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === HttpStatusCode.Unauthorized) {
+          return false;
         }
+      }
 
-        return true;
-      },
-      onSuccess(user) {
-        if (user) {
-          dispatch({ type: "GET_ACCESS_TOKEN_COMPLETE", user });
-        }
-      },
-      onError(err) {
-        dispatch({ type: "ERROR", error: err as Error });
-      },
-    }
-  );
+      return failureCount < 5;
+    },
+    onSuccess(user) {
+      if (user) {
+        dispatch({ type: "GET_ACCESS_TOKEN_COMPLETE", user });
+      }
+    },
+    onError(err) {
+      dispatch({ type: "ERROR", error: err as Error });
+    },
+  });
 
   useEffect(() => {
-    if (!isInitialLoading) {
-      dispatch({ type: "INITIALISED", user: data });
+    if (isLoading) {
+      dispatch({ type: "LOGIN_STARTED" });
     }
-  }, [data, isInitialLoading]);
+  }, [isLoading]);
 
   const handleLogin = useCallback(
     async (credentials: LoginCredentials, { redirectTo }: LoginOptions) => {
       dispatch({ type: "LOGIN_STARTED" });
 
       try {
-        const { data: user } = await login(credentials);
+        await login(credentials);
 
-        dispatch({ type: "LOGIN_COMPLETE", user });
+        // Refetch to get user by the access_token
+        await refetch();
 
         if (redirectTo) {
           router.push(redirectTo);
@@ -69,7 +68,7 @@ export function AuthProvider({ returnTo, children }: AuthPoviderProps) {
         dispatch({ type: "ERROR", error: err as Error });
       }
     },
-    [router]
+    [refetch, router]
   );
 
   const handleLogout = useCallback(

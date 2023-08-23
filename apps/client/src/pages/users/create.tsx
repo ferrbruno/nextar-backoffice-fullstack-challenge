@@ -103,16 +103,20 @@ export default function UsersCreate() {
             pattern="([0-9]{2}) [0-9]{5}-[0-9]{4}"
             onChange={onChangePhone}
           />
-          <label className="flex w-full justify-between">
+          <label className="flex w-full justify-between dark:text-white">
             Permission:
             <select
               required
-              className="mx-4 px-1 border rounded w-full"
+              className="mx-4 px-1 border rounded w-full dark:bg-black"
               defaultValue={Permission.standard}
               onChange={onChangePermission}
             >
-              <option value={Permission.standard}>Standard</option>
-              <option value={Permission.admin}>Administrator</option>
+              <option className="dark:bg-black" value={Permission.standard}>
+                Standard
+              </option>
+              <option className="dark:bg-black" value={Permission.admin}>
+                Administrator
+              </option>
             </select>
           </label>
           <Input
